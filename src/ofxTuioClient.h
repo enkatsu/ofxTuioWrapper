@@ -58,9 +58,9 @@ public:
 	void updateTuioCursor(TuioCursor * tcur);
 	void removeTuioCursor(TuioCursor * tcur);
 	
-//	void addTuioBlob(TuioBlob * tblb){}
-//	void removeTuioBlob(TuioBlob * tblb){}
-//	void updateTuioBlob(TuioBlob * tblb){}
+    void addTuioBlob(TuioBlob * tblb);
+    void removeTuioBlob(TuioBlob * tblb);
+    void updateTuioBlob(TuioBlob * tblb);
 
 	void refresh(TuioTime frameTime);
 	void drawCursors();
@@ -77,6 +77,14 @@ public:
 	ofEvent<TuioObject> objectAdded;
 	ofEvent<TuioObject> objectRemoved;
 	ofEvent<TuioObject> objectUpdated;
+    
+    ofEvent<TuioCursor> cursorAdded;
+    ofEvent<TuioCursor> cursorRemoved;
+    ofEvent<TuioCursor> cursorUpdated;
+    
+    ofEvent<TuioBlob> blobAdded;
+    ofEvent<TuioBlob> blobRemoved;
+    ofEvent<TuioBlob> blobUpdated;
 	
 	TuioClient * client;
 	
@@ -84,6 +92,8 @@ protected:
 	bool bVerbose, bIsConnected, bFlip;
 	ofThreadChannel<TuioObject> objectAddedQueue, objectRemovedQueue, objectUpdatedQueue;
 	ofThreadChannel<ofTouchEventArgs> touchAddedQueue, touchRemovedQueue, touchUpdatedQueue;
+    ofThreadChannel<TuioCursor> cursorAddedQueue, cursorRemovedQueue, cursorUpdatedQueue;
+    ofThreadChannel<TuioBlob> blobAddedQueue, blobRemovedQueue, blobUpdatedQueue;
 };
 #endif
 

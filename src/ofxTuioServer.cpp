@@ -37,21 +37,29 @@ void  ofxTuioServer::start(char * host, int port){
 //add cursor, object
 TuioCursor * ofxTuioServer::addCursor(float _x, float _y){
 	if(verbose) cout<<"ofxTuioServer: TUIO Cursor added at x: "+ofToString(_x)+" y: "+ofToString(_y)<<endl;
-	return tuioServer->addTuioCursor(_x/ofGetWidth(), _y/ofGetHeight());
+	return tuioServer->addTuioCursor(_x, _y);
 }
 
 TuioObject * ofxTuioServer::addObject(int _sid, float _x, float _y, float _a){
-	return tuioServer->addTuioObject(_sid, _x/ofGetWidth(), _y/ofGetHeight(), _a);
+	return tuioServer->addTuioObject(_sid, _x, _y, _a);
+}
+
+TuioBlob * ofxTuioServer::addBlob(float x, float y, float a, float w, float h, float f){
+    return tuioServer->addTuioBlob(x, y, a, w, h, f);
 }
 
 //update them
 void ofxTuioServer::updateCursor(TuioCursor * _tcur, float _nx, float _ny){
 	if(verbose) cout<<"ofxTuioServer: update TUIO Cursor " << _tcur->getCursorID() << " to x: "+ofToString(_nx)+" y: "+ofToString(_ny)<<endl;
-	tuioServer->updateTuioCursor(_tcur, _nx/ofGetWidth(), _ny/ofGetHeight());
+	tuioServer->updateTuioCursor(_tcur, _nx, _ny);
 }
 
 void ofxTuioServer::updateObject(TuioObject * _tobj, float _nx, float _ny, float _ang){
-	tuioServer->updateTuioObject(_tobj, _nx/ofGetWidth(), _ny/ofGetHeight(), _ang);
+	tuioServer->updateTuioObject(_tobj, _nx, _ny, _ang);
+}
+
+void ofxTuioServer::updateBlob(TuioBlob * _tblb, float x, float y, float a, float w, float h, float f) {
+    tuioServer->updateTuioBlob(_tblb, x, y, a, w, h, f);
 }
 
 //remove them
@@ -62,6 +70,10 @@ void ofxTuioServer::removeCursor(TuioCursor * _tcur){
 
 void ofxTuioServer::removeObject(TuioObject * _tobj){
 	tuioServer->removeTuioObject(_tobj);
+}
+
+void ofxTuioServer::removeBlob(TuioBlob *_tblb) {
+    tuioServer->removeTuioBlob(_tblb);
 }
 
 //Getters

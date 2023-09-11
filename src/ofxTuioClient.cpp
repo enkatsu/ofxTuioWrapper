@@ -95,7 +95,7 @@ void ofxTuioClient::drawObjects(){
 }
 
 void ofxTuioClient::update(){
-	TuioObject tobj;
+	TuioObject tobj(0, 0, 0, 0, 0);
 	while(objectAddedQueue.tryReceive(tobj)){
 		ofNotifyEvent(objectAdded, tobj, this);
 	}
@@ -105,25 +105,35 @@ void ofxTuioClient::update(){
 	while(objectRemovedQueue.tryReceive(tobj)){
 		ofNotifyEvent(objectRemoved, tobj, this);
 	}
-
-	ofTouchEventArgs touch;
-	while(touchAddedQueue.tryReceive(touch)){
-		ofNotifyEvent(touchDown, touch, this);
-	}
-	while(touchUpdatedQueue.tryReceive(touch)){
-		ofNotifyEvent(touchMoved, touch, this);
-	}
-	while(touchRemovedQueue.tryReceive(touch)){
-		ofNotifyEvent(touchUp, touch, this);
-	}
+    
+    TuioCursor cursor(0, 0, 0, 0);
+    while(cursorAddedQueue.tryReceive(cursor)){
+        ofNotifyEvent(cursorAdded, cursor, this);
+    }
+    while(cursorRemovedQueue.tryReceive(cursor)){
+        ofNotifyEvent(cursorUpdated, cursor, this);
+    }
+    while(cursorUpdatedQueue.tryReceive(cursor)){
+        ofNotifyEvent(cursorRemoved, cursor, this);
+    }
+    
+    TuioBlob blob(0, 0, 0, 0, 0, 0, 0, 0);
+    while(blobAddedQueue.tryReceive(blob)){
+        ofNotifyEvent(blobAdded, blob, this);
+    }
+    while(blobRemovedQueue.tryReceive(blob)){
+        ofNotifyEvent(blobUpdated, blob, this);
+    }
+    while(blobUpdatedQueue.tryReceive(blob)){
+        ofNotifyEvent(blobRemoved, blob, this);
+    }
 }
 
 
 void ofxTuioClient::addTuioObject(TuioObject *tobj) {
 	
 	if(bFlip){
-		tobj->setX(1.f - tobj->getX());
-		tobj->setY(1.f - tobj->getY());
+        tobj->update(1.f - tobj->getX(), 1.f - tobj->getY());
 	}
 	objectAddedQueue.send(*tobj);
 	
@@ -135,8 +145,7 @@ void ofxTuioClient::addTuioObject(TuioObject *tobj) {
 void ofxTuioClient::updateTuioObject(TuioObject *tobj) {
 	
 	if(bFlip){
-		tobj->setX(1.f - tobj->getX());
-		tobj->setY(1.f - tobj->getY());
+        tobj->update(1.f - tobj->getX(), 1.f - tobj->getY());
 	}
 	objectUpdatedQueue.send(*tobj);
 	
@@ -149,8 +158,7 @@ void ofxTuioClient::updateTuioObject(TuioObject *tobj) {
 void ofxTuioClient::removeTuioObject(TuioObject *tobj) {
 	
 	if(bFlip){
-		tobj->setX(1.f - tobj->getX());
-		tobj->setY(1.f - tobj->getY());
+        tobj->update(1.f - tobj->getX(), 1.f - tobj->getY());
 	}
 	objectRemovedQueue.send(*tobj);
 	
@@ -159,17 +167,11 @@ void ofxTuioClient::removeTuioObject(TuioObject *tobj) {
 }
 
 void ofxTuioClient::addTuioCursor(TuioCursor *tcur) {
-	ofTouchEventArgs touch;
-	touch.x=tcur->getX();
-	touch.y=tcur->getY();
-	touch.id=tcur->getSessionID();
-	
 	if(bFlip){
-		touch.x = 1.f - touch.x;
-		touch.y = 1.f - touch.y;
+        tcur->update(1.f - tcur->getX(), 1.f - tcur->getY());
 	}
 
-	touchAddedQueue.send(touch);
+	cursorAddedQueue.send(tcur);
 	
 	if (bVerbose) 
 		std::cout << "add cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << ") " << tcur->getX() << " " << tcur->getY() << std::endl;
@@ -177,17 +179,10 @@ void ofxTuioClient::addTuioCursor(TuioCursor *tcur) {
 }
 
 void ofxTuioClient::updateTuioCursor(TuioCursor *tcur) {
-
-	ofTouchEventArgs touch;
-	touch.x=tcur->getX();
-	touch.y=tcur->getY();
-	touch.id=tcur->getSessionID();
-	
 	if(bFlip){
-		touch.x = 1.f - touch.x;
-		touch.y = 1.f - touch.y;
+        tcur->update(1.f - tcur->getX(), 1.f - tcur->getY());
 	}
-	touchUpdatedQueue.send(touch);
+	cursorUpdatedQueue.send(tcur);
 	
 	if (bVerbose) 	
 		std::cout << "set cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << ") " << tcur->getX() << " " << tcur->getY() 
@@ -195,20 +190,44 @@ void ofxTuioClient::updateTuioCursor(TuioCursor *tcur) {
 }
 
 void ofxTuioClient::removeTuioCursor(TuioCursor *tcur) {
-
-	ofTouchEventArgs touch;
-	touch.x=tcur->getX();
-	touch.y=tcur->getY();
-	touch.id=tcur->getSessionID();
-	
 	if(bFlip){
-		touch.x = 1.f - touch.x;
-		touch.y = 1.f - touch.y;
+        tcur->update(1.f - tcur->getX(), 1.f - tcur->getY());
 	}
-	touchRemovedQueue.send(touch);
+	cursorRemovedQueue.send(tcur);
 	
 	if (bVerbose)
 		std::cout << "del cur " << tcur->getCursorID() << " (" <<  tcur->getSessionID() << ")" << std::endl;
+}
+
+void ofxTuioClient::addTuioBlob(TuioBlob *tblb) {
+    if(bFlip){
+        tblb->update(1.f - tblb->getX(), 1.f - tblb->getY());
+    }
+    blobAddedQueue.send(tblb);
+    
+    if (bVerbose)
+        std::cout << "add blb " << tblb->getBlobID() << " (" << tblb->getSessionID()  << "/"<<  tblb->getTuioSourceID()<< ") "<< tblb->getX() << " " << tblb->getY() << " " << tblb->getAngle() << " " << tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getArea() << std::endl;
+}
+
+void ofxTuioClient::updateTuioBlob(TuioBlob *tblb) {
+    if(bFlip){
+        tblb->update(1.f - tblb->getX(), 1.f - tblb->getY());
+    }
+    blobUpdatedQueue.send(tblb);
+    
+    if (bVerbose)
+        std::cout << "set blb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/"<<  tblb->getTuioSourceID() << ") "<< tblb->getX() << " " << tblb->getY() << " " << tblb->getAngle() << " "<< tblb->getWidth() << " " << tblb->getHeight() << " " << tblb->getArea()
+        << " " << tblb->getMotionSpeed() << " " << tblb->getRotationSpeed() << " " << tblb->getMotionAccel() << " " << tblb->getRotationAccel() << std::endl;
+}
+
+void ofxTuioClient::removeTuioBlob(TuioBlob *tblb) {
+    if(bFlip){
+        tblb->update(1.f - tblb->getX(), 1.f - tblb->getY());
+    }
+    blobRemovedQueue.send(tblb);
+    
+    if (bVerbose)
+        std::cout << "del blb " << tblb->getBlobID() << " (" << tblb->getSessionID() << "/"<<  tblb->getTuioSourceID() << ")" << std::endl;
 }
 
 void ofxTuioClient::refresh(TuioTime frameTime) {
