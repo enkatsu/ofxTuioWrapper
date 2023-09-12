@@ -47,7 +47,7 @@ public:
     void start(char * _host, int _port);
     TuioCursor * addCursor(float _x, float _y);
     TuioObject * addObject(int _sid, float _x, float _y, float _a);
-    TuioBlob * addBlob(float x, float y, float a, float w, float h, float f);
+    TuioBlob * addBlob(float _x, float _y, float _a, float _w, float _h, float _f);
     
     TuioObject * getTuioObject(int _sid);
     std::list<TuioObject*>  getTuioObjects();
@@ -56,7 +56,7 @@ public:
     
     void updateCursor(TuioCursor * _tcur, float _nx, float _ny);
     void updateObject(TuioObject * _tobj, float _nx, float _ny, float _ang);
-    void updateBlob(TuioBlob *tblb,float x, float y, float a, float w, float h, float f);
+    void updateBlob(TuioBlob * _tblb, float _x, float _y, float _a, float _w, float _h, float _f);
     
     void removeCursor(TuioCursor * _tcur);
     void removeObject(TuioObject * _tobj);

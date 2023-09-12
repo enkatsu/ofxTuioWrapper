@@ -41,51 +41,57 @@ void  ofxTuioServer::start(char * host, int port)
 //add cursor, object, blob
 TuioCursor * ofxTuioServer::addCursor(float _x, float _y)
 {
-    if(verbose) cout<<"ofxTuioServer: TUIO Cursor added at x: "+ofToString(_x)+" y: "+ofToString(_y)<<endl;
+    if (verbose) cout << "ofxTuioServer: TUIO Cursor added at x: " + ofToString(_x) + " y: " + ofToString(_y) << endl;
     return tuioServer->addTuioCursor(_x, _y);
 }
 
 TuioObject * ofxTuioServer::addObject(int _sid, float _x, float _y, float _a)
 {
+    if (verbose) cout << "ofxTuioServer: TUIO Object added at x: " + ofToString(_x) + " y: " + ofToString(_y) << endl;
     return tuioServer->addTuioObject(_sid, _x, _y, _a);
 }
 
-TuioBlob * ofxTuioServer::addBlob(float x, float y, float a, float w, float h, float f)
+TuioBlob * ofxTuioServer::addBlob(float _x, float _y, float _a, float _w, float _h, float _f)
 {
-    return tuioServer->addTuioBlob(x, y, a, w, h, f);
+    if (verbose) cout << "ofxTuioServer: TUIO Blob added at x: " + ofToString(_x) + " y: " + ofToString(_y) << endl;
+    return tuioServer->addTuioBlob(_x, _y, _a, _w, _h, _f);
 }
 
 //update them
 void ofxTuioServer::updateCursor(TuioCursor * _tcur, float _nx, float _ny)
 {
-    if(verbose) cout<<"ofxTuioServer: update TUIO Cursor " << _tcur->getCursorID() << " to x: "+ofToString(_nx)+" y: "+ofToString(_ny)<<endl;
+    if (verbose) cout << "ofxTuioServer: update TUIO Cursor " << _tcur->getCursorID() << " to x: " + ofToString(_nx) + " y: " + ofToString(_ny) << endl;
     tuioServer->updateTuioCursor(_tcur, _nx, _ny);
 }
 
 void ofxTuioServer::updateObject(TuioObject * _tobj, float _nx, float _ny, float _ang)
 {
+    if (verbose) cout << "ofxTuioServer: update TUIO Object " << _tobj->getSymbolID() << " to x: " + ofToString(_nx) + " y: " + ofToString(_ny) << endl;
     tuioServer->updateTuioObject(_tobj, _nx, _ny, _ang);
 }
 
-void ofxTuioServer::updateBlob(TuioBlob * _tblb, float x, float y, float a, float w, float h, float f)
+void ofxTuioServer::updateBlob(TuioBlob * _tblb, float _x, float _y, float _a, float _w, float _h, float _f)
 {
-    tuioServer->updateTuioBlob(_tblb, x, y, a, w, h, f);
+    if (verbose) cout << "ofxTuioServer: update TUIO Blob " << _tblb->getBlobID() << " to x: " + ofToString(_x) + " y: " + ofToString(_y) << endl;
+    tuioServer->updateTuioBlob(_tblb, _x, _y, _a, _w, _h, _f);
 }
 
 //remove them
 void ofxTuioServer::removeCursor(TuioCursor * _tcur)
 {
-    if(verbose) cout<<"ofxTuioServer: remove TUIO Cursor " << _tcur->getCursorID()<<endl;
+    if(verbose) cout << "ofxTuioServer: remove TUIO Cursor " << _tcur->getCursorID() << endl;
     tuioServer->removeTuioCursor(_tcur);
 }
 
 void ofxTuioServer::removeObject(TuioObject * _tobj)
 {
+    if(verbose) cout << "ofxTuioServer: remove TUIO Cursor " << _tobj->getSymbolID() << endl;
     tuioServer->removeTuioObject(_tobj);
 }
 
 void ofxTuioServer::removeBlob(TuioBlob *_tblb)
 {
+    if(verbose) cout << "ofxTuioServer: remove TUIO Cursor " << _tblb->getBlobID() << endl;
     tuioServer->removeTuioBlob(_tblb);
 }
 
