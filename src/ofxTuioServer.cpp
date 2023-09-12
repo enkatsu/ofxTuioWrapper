@@ -1,5 +1,9 @@
 /*
  TUIO Server Wrapper for OpenFrameworks
+ Copyright (c) 2023 Katsuya Endoh <studio@enkatsu.org>
+ Based on the TUIO Server Wrapper for OpenFrameworks by Matthias Dörfelt:
+ 
+ TUIO Server Wrapper for OpenFrameworks
  Copyright (c) 2009 Matthias Dörfelt <info@mokafolio.de>
  Based on the TUIO SimpleSimulator by Martin Kaltenbrunner:
 
