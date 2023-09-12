@@ -122,10 +122,10 @@ void ofxTuioClient::update()
     while(cursorAddedQueue.tryReceive(cursor)){
         ofNotifyEvent(cursorAdded, cursor, this);
     }
-    while(cursorRemovedQueue.tryReceive(cursor)){
+    while(cursorUpdatedQueue.tryReceive(cursor)){
         ofNotifyEvent(cursorUpdated, cursor, this);
     }
-    while(cursorUpdatedQueue.tryReceive(cursor)){
+    while(cursorRemovedQueue.tryReceive(cursor)){
         ofNotifyEvent(cursorRemoved, cursor, this);
     }
     
@@ -133,10 +133,10 @@ void ofxTuioClient::update()
     while(blobAddedQueue.tryReceive(blob)){
         ofNotifyEvent(blobAdded, blob, this);
     }
-    while(blobRemovedQueue.tryReceive(blob)){
+    while(blobUpdatedQueue.tryReceive(blob)){
         ofNotifyEvent(blobUpdated, blob, this);
     }
-    while(blobUpdatedQueue.tryReceive(blob)){
+    while(blobRemovedQueue.tryReceive(blob)){
         ofNotifyEvent(blobRemoved, blob, this);
     }
 }
