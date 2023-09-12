@@ -128,7 +128,7 @@ void ofxTuioServer::drawCursors()
     for (std::list<TuioCursor*>::iterator tuioCursor = cursorList.begin(); tuioCursor!=cursorList.end(); tuioCursor++) {
         TuioCursor * tcur = (*tuioCursor);
         std::list<TuioPoint> path = tcur->getPath();
-        if (path.size()>0) {
+        if (path.size() > 0) {
             
             TuioPoint last_point = path.front();
             glBegin(GL_LINES);
@@ -155,18 +155,18 @@ void ofxTuioServer::drawObjects()
     
     for (tobj=objectList.begin(); tobj != objectList.end(); tobj++) {
         TuioObject *obj = (*tobj);
-        glColor3f(1.0,0.0,0.0);
+        glColor3f(1.0, 0.0, 0.0);
         glPushMatrix();
-        glTranslatef(obj->getX()*ofGetWidth(), obj->getY()*ofGetHeight(), 0.0);
+        glTranslatef(obj->getX() * ofGetWidth(), obj->getY() * ofGetHeight(), 0.0);
         glRotatef(obj->getAngleDegrees(), 0.0, 0.0, 1.0);
-        ofRect(-10.0, -10.0, 20.0, 20.0);
+        ofDrawRectangle(-10.0, -10.0, 20.0, 20.0);
         glColor3f(1.0,1.0,1.0);
-        ofLine(0, 0, 0, -10);
+        ofDrawLine(0, 0, 0, -10);
         glPopMatrix();
-        string str = "SymbolId: "+ofToString((int)(obj->getSymbolID()));
-        ofDrawBitmapString(str, obj->getX()*ofGetWidth()-10.0, obj->getY()*ofGetHeight()+25.0);
-        str = "SessionId: "+ofToString((int)(obj->getSessionID()));
-        ofDrawBitmapString(str, obj->getX()*ofGetWidth()-10.0, obj->getY()*ofGetHeight()+40.0);
+        string str = "SymbolId: " + ofToString((int)(obj->getSymbolID()));
+        ofDrawBitmapString(str, obj->getX() * ofGetWidth() - 10.0, obj->getY()*ofGetHeight() + 25.0);
+        str = "SessionId: " + ofToString((int)(obj->getSessionID()));
+        ofDrawBitmapString(str, obj->getX() * ofGetWidth() - 10.0, obj->getY()*ofGetHeight() + 40.0);
     }
     
 }
